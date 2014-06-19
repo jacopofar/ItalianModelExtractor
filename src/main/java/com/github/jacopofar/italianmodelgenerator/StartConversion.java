@@ -6,13 +6,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import com.github.jacopofar.sqlliteoutput.SQLLiteModelWriter;
-
 import net.sf.extjwnl.JWNLException;
+
+import com.github.jacopofar.sqlliteoutput.SQLLiteModelWriter;
 
 public class StartConversion {
 
-	public static void main(String[] args) throws IOException, JWNLException {
+	public static void main(String[] args) throws IOException, JWNLException {	
+		
 		if(args.length!=3){
 			System.err.println("wrong arguments. 3 arguments required:");
 			System.err.println("1 - the path of the conceptnet jsons folder");
@@ -25,6 +26,7 @@ public class StartConversion {
 		String workdir=args[2];
 		String rulesFile=workdir+"cleanrules.txt";
 		String wiktionaryPath=args[1];
+		long startTime=System.currentTimeMillis();
 		//conceptnet raw json is a folder of .jsons files
 		//each row of those files represent a concept
 		//we read the /r/TranslationOf concepts to create an English to Italian dictionary
@@ -72,6 +74,8 @@ public class StartConversion {
 		System.out.println("exporting IsAs data in a SQLLite DB...");
 		mw.importIsAs(workdir+"hyponyms.tsv","\t");
 		mw.close();
+		long elapsed=System.currentTimeMillis()-startTime;
+		System.out.println("Finished, the execution took "+elapsed/(1000*60*60)+"h "+elapsed%(1000*60*60)/(1000*60)+"m "+elapsed%1000*60/(1000)+"s");
 
 	}
 
