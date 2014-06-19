@@ -33,7 +33,7 @@ public class SQLLiteModelWriter implements ModelWriter {
 			//statement.executeUpdate("create index i_pos_word on POS_tags (word)");
 
 			statement.executeUpdate("create table verb_conjugations (conjugated string, infinitive string,"
-					+ "person integer,number char(1),form string,time string)");
+					+ "person integer,number char(1),form string)");
 			connection.setAutoCommit(false);
 			//statement.executeUpdate("create index i_conjugated on verb_conjugations (conjugated)");
 			//statement.executeUpdate("create index i_infinitive on verb_conjugations (infinitive)");
@@ -101,7 +101,7 @@ public class SQLLiteModelWriter implements ModelWriter {
 		String line = null;
 		try(BufferedReader br=new BufferedReader(fr)){
 			int reads=0;
-			PreparedStatement statement = connection.prepareStatement("insert into verb_conjugations values(?,?,?,?,?,?)");
+			PreparedStatement statement = connection.prepareStatement("insert into verb_conjugations values(?,?,?,?,?)");
 			while((line=br.readLine())!=null){
 				//conjugated string, infinitive string,person integer,number char(1),form string,time string
 				ItalianVerbConjugation ic = new ItalianVerbConjugation(line,delimiter);
