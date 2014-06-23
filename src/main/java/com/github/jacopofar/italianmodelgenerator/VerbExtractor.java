@@ -46,8 +46,6 @@ public class VerbExtractor {
 	}
 
 	private static int managePage(String content, String title) throws IOException {
-		if(content.contains("present participle of|andare"))
-			System.out.println("!!!");
 		if(!content.contains("==Italian==")) return 0;
 		String verbIT=null;
 		try{
