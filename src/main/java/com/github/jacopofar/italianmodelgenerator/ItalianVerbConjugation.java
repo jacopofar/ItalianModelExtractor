@@ -39,7 +39,7 @@ public class ItalianVerbConjugation {
 		modeRepresentations.put(Mode.PRESENT_PARTICIPLE,"present participle");
 		modeRepresentations.put(Mode.PAST_PARTICIPLE,"past participle");
 		modeRepresentations.put(Mode.INDICATIVE_PRESENT,"indicative present");
-		modeRepresentations.put(Mode.INDICATIVE_IMPERFECT,"indicative present");
+		modeRepresentations.put(Mode.INDICATIVE_IMPERFECT,"indicative imperfect");
 		modeRepresentations.put(Mode.INDICATIVE_PAST_HISTORIC,"indicative past historic");
 		modeRepresentations.put(Mode.INDICATIVE_FUTURE,"indicative future");
 		modeRepresentations.put(Mode.CONDITIONAL_PRESENT,"conditional");
