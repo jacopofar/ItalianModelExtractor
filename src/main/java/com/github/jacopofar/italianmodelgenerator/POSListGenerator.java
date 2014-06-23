@@ -114,7 +114,7 @@ public class POSListGenerator {
 		while ((strLine = br.readLine()) != null){
 
 			if(lastMessage+5000<System.currentTimeMillis()){
-				System.out.println("I saw "+saw+" pages ("+Math.round(((double)saw/(double)(System.currentTimeMillis()-start))*1000)+" pages per second)");
+				System.out.println(saw+" pages encountered ("+Math.round(((double)saw/(double)(System.currentTimeMillis()-start))*1000)+" pages per second)");
 				lastMessage=System.currentTimeMillis();
 			}
 			if(strLine.contains("<title>")){
