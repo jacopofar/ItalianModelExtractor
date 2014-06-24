@@ -87,6 +87,7 @@ public class ItalianVerbConjugation {
 					continue;
 				//a verb mode without person data is OK
 				if(cv.mode==Mode.GERUND || cv.mode==Mode.INFINITIVE|| cv.mode==Mode.PAST_PARTICIPLE|| cv.mode==Mode.PRESENT_PARTICIPLE){
+					cv.setConjugated(title);
 					ics.add(cv);
 					continue;
 				}

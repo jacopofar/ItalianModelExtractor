@@ -158,7 +158,7 @@ public class VerbExtractor {
 		wrerr.close();
 		out.close();
 		outerr.close();
-		System.out.println("Finished! It took "+(System.currentTimeMillis()-start)/1000 +" seconds");
+		System.out.println("Finished! It took "+(System.currentTimeMillis()-start)/1000 +" seconds, "+infinitiveVerbs.size()+" distinct verbs found, "+found+" conjugated verb forms");
 		return found;
 	}
 
