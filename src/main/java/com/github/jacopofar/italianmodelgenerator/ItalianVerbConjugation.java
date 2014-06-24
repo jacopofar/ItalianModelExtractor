@@ -51,12 +51,12 @@ public class ItalianVerbConjugation {
 	 * */
 	public ItalianVerbConjugation(String line, String delimiter) {
 		try{
-		String[] data = line.split(delimiter);
-		this.conjugated=data[0];
-		this.infinitive=data[1];
-		this.setMode(data[2]);
-		this.number=data[3].charAt(0);
-		this.person=Integer.parseInt(data[4]);
+			String[] data = line.split(delimiter);
+			this.conjugated=data[0];
+			this.infinitive=data[1];
+			this.setMode(data[2]);
+			this.number=data[3].charAt(0);
+			this.person=Integer.parseInt(data[4]);
 		}catch(Exception e){
 			System.err.println("Offending verb string: "+line);
 			e.printStackTrace();
@@ -73,7 +73,7 @@ public class ItalianVerbConjugation {
 	 * */
 	public static Set<ItalianVerbConjugation> parseWikiCode(String title,String wikiCode){
 
-		
+
 		HashSet<ItalianVerbConjugation> ics = new HashSet<ItalianVerbConjugation>();
 		for(String candidateVerb:wikiCode.split("#")){
 			Set<ItalianVerbConjugation> cvs=extractVerbs(candidateVerb);
@@ -175,29 +175,59 @@ public class ItalianVerbConjugation {
 		}
 
 		//this wasn't a template, let's try to match the textual description
-		ItalianVerbConjugation ic = new ItalianVerbConjugation();
+
 		String desc=candidateVerb.toLowerCase();
+		//often a verb has multiple person (for example the verb "vada" is currently described as "first-person singular, second-person singular and third-person singular present subjunctive of andare"
+		String multiplePersons="";
+		if(desc.contains("first-person"))multiplePersons+="1";
+		if(desc.contains("second-person"))multiplePersons+="2";
+		if(desc.contains("third-person"))multiplePersons+="3";
+		//one or more person? iterate over them
+		if(multiplePersons.length()>0){
+			for(char p:multiplePersons.toCharArray()){
+				ItalianVerbConjugation ic = new ItalianVerbConjugation();
+				
+				ic.person=Integer.parseInt(p+"");
+				
+				if(desc.contains("singular"))ic.number='s';
+				if(desc.contains("plural"))ic.number='p';
 
-		if(desc.contains("first-person"))ic.person=1;
-		if(desc.contains("second-person"))ic.person=2;
-		if(desc.contains("third-person"))ic.person=3;
+				if(desc.contains("indicative present"))ic.mode=Mode.INDICATIVE_PRESENT;
+				if(desc.contains("present tense"))ic.mode=Mode.INDICATIVE_PRESENT;
+				if(desc.contains("imperfect tense"))ic.mode=Mode.INDICATIVE_IMPERFECT;
+				if(desc.contains("past participle"))ic.mode=Mode.PAST_PARTICIPLE;
+				if(desc.contains("present subjunctive"))ic.mode=Mode.SUBJUNCTIVE_PRESENT;
 
-		if(desc.contains("singular"))ic.number='s';
-		if(desc.contains("plural"))ic.number='p';
 
-		if(desc.contains("indicative present"))ic.mode=Mode.INDICATIVE_PRESENT;
-		if(desc.contains("present tense"))ic.mode=Mode.INDICATIVE_PRESENT;
-		if(desc.contains("present tense"))ic.mode=Mode.INDICATIVE_PRESENT;
-		if(desc.contains("imperfect tense"))ic.mode=Mode.INDICATIVE_IMPERFECT;
-		if(desc.contains("past participle"))ic.mode=Mode.PAST_PARTICIPLE;
-		if(desc.contains("present subjunctive"))ic.mode=Mode.SUBJUNCTIVE_PRESENT;
-
-		//let's find the infinitive, it ends with "are", "ere" or "ire"
-		m=Pattern.compile("([a-z]+[aei]re)").matcher(desc);
-		while (m.find()) {
-			ic.infinitive=m.group();
+				//let's find the infinitive, it ends with "are", "ere" or "ire"
+				m=Pattern.compile("([a-z]+[aei]re)").matcher(desc);
+				while (m.find()) {
+					ic.infinitive=m.group();
+				}
+				results.add(ic);
+			}
 		}
-		results.add(ic);
+		else{
+			//no persons found, it may be an impersonal form like infinitive, or just a string with no verbs in it
+			ItalianVerbConjugation ic = new ItalianVerbConjugation();
+			
+			if(desc.contains("singular"))ic.number='s';
+			if(desc.contains("plural"))ic.number='p';
+
+			if(desc.contains("indicative present"))ic.mode=Mode.INDICATIVE_PRESENT;
+			if(desc.contains("present tense"))ic.mode=Mode.INDICATIVE_PRESENT;
+			if(desc.contains("imperfect tense"))ic.mode=Mode.INDICATIVE_IMPERFECT;
+			if(desc.contains("past participle"))ic.mode=Mode.PAST_PARTICIPLE;
+			if(desc.contains("present subjunctive"))ic.mode=Mode.SUBJUNCTIVE_PRESENT;
+
+
+			//let's find the infinitive, it ends with "are", "ere" or "ire"
+			m=Pattern.compile("([a-z]+[aei]re)").matcher(desc);
+			while (m.find()) {
+				ic.infinitive=m.group();
+			}
+			results.add(ic);
+		}
 		return results;
 
 	}
@@ -264,7 +294,7 @@ public class ItalianVerbConjugation {
 		}
 		throw new RuntimeException("ERROR, the verbal mode '"+repr+"' is unknown");
 	}
-	
+
 	public String toString(){
 		return this.toStringRepresentation(",");
 	}
