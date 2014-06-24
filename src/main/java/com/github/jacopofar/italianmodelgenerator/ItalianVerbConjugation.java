@@ -72,8 +72,6 @@ public class ItalianVerbConjugation {
 	 * @param wikiCode the wikicode snippet containing the verb conjugation(s) to extract
 	 * */
 	public static Set<ItalianVerbConjugation> parseWikiCode(String title,String wikiCode){
-
-
 		HashSet<ItalianVerbConjugation> ics = new HashSet<ItalianVerbConjugation>();
 		for(String candidateVerb:wikiCode.split("#")){
 			Set<ItalianVerbConjugation> cvs=extractVerbs(candidateVerb);
@@ -285,7 +283,7 @@ public class ItalianVerbConjugation {
 	public String getMode() {
 		return modeRepresentations.get(mode);
 	}
-	private void setMode(String repr) {
+	void setMode(String repr) {
 		for(Entry<Mode, String> mr:modeRepresentations.entrySet()){
 			if(mr.getValue().equals(repr)){
 				this.mode= mr.getKey();

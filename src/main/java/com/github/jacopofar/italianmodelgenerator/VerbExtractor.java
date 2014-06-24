@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,6 +25,7 @@ public class VerbExtractor {
 	private static BufferedWriter wr;
 	private static String delim="\t";
 	private static BufferedWriter wrerr;
+	private static HashSet<String> infinitiveVerbs=new HashSet<String>(300);
 	/**
 	 * Tool to extract italian verb forms from a dump of en.wiktionary
 	 * Example output:
@@ -60,9 +62,21 @@ public class VerbExtractor {
 		}
 
 		Set<ItalianVerbConjugation> verbs = ItalianVerbConjugation.parseWikiCode(title, verbIT);
-		
+
 		for(ItalianVerbConjugation v:verbs){
-			wr.write(v.toStringRepresentation(delim)+delim+verbIT.replace(delim, "").replace("\n", "")+"\n");
+			//if it's not infinitive, write it
+			if(!v.getMode().equals("infinitive"))
+				wr.write(v.toStringRepresentation(delim)+delim+verbIT.replace(delim, "").replace("\n", "")+"\n");
+			//now if it's the first time this verb is found, let's store the infinitive form
+			if(!infinitiveVerbs.contains(v.getInfinitive())){
+				infinitiveVerbs.add(v.getInfinitive());
+				v.setConjugated(v.getInfinitive());
+				v.setNumber('-');
+				v.setPerson(0);
+				v.setMode("infinitive");
+				wr.write(v.toStringRepresentation(delim)+delim+verbIT.replace(delim, "").replace("\n", "")+"\n");
+			}
+
 		}
 		//the verb was not found, let's write it into a file to allow further improvement of the extractor
 		if(verbs.size()==0){
@@ -79,8 +93,7 @@ public class VerbExtractor {
 	 * 2 - infinitive form
 	 * 3 - person number (1,2,3)
 	 * 4 - plural or singular (p,s)
-	 * 5 - verbal form (indicative, subjunctive, etc.)
-	 * 6 - time, when possible with the verbal form,or an empty string
+	 * 5 - verbal form and time (subjunctive present, indicative imperfec, etc.)
 	 * @param delimiter 
 	 * @param mw 
 	 * */
