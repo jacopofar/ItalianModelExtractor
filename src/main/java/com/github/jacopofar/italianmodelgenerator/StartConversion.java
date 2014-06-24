@@ -58,7 +58,7 @@ public class StartConversion {
 		System.out.println("Extracting IsA relationships from wordnet using the POS data to filter them...");
 		k=ExtractIsARelationships.extractIsARelationShips(dict,posChecker,workdir+"hyponyms.tsv","\t");
 		System.out.println("Italian IsA relationships extracted, number of relationshisp found: "+k);
-		System.out.println("TSV files generated, creating the corresponfing SQLLite database");
+		System.out.println("TSV files generated, creating the corresponding SQLLite database");
 		ModelWriter mw = null;
 		try {
 			mw=new SQLLiteModelWriter(workdir);
