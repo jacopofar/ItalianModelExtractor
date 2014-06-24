@@ -46,6 +46,8 @@ public class VerbExtractor {
 	}
 
 	private static int managePage(String content, String title) throws IOException {
+		if(title==null)
+			return 0;
 		if(!content.contains("==Italian==")) return 0;
 		String verbIT=null;
 		try{
@@ -58,8 +60,7 @@ public class VerbExtractor {
 		}
 
 		Set<ItalianVerbConjugation> verbs = ItalianVerbConjugation.parseWikiCode(title, verbIT);
-		if(title==null)
-			return 0;
+		
 		for(ItalianVerbConjugation v:verbs){
 			wr.write(v.toStringRepresentation(delim)+delim+verbIT.replace(delim, "").replace("\n", "")+"\n");
 		}
