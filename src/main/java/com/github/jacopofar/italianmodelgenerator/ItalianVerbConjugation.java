@@ -178,9 +178,9 @@ public class ItalianVerbConjugation {
 		String desc=candidateVerb.toLowerCase();
 		//often a verb has multiple person (for example the verb "vada" is currently described as "first-person singular, second-person singular and third-person singular present subjunctive of andare"
 		String multiplePersons="";
-		if(desc.contains("first-person"))multiplePersons+="1";
-		if(desc.contains("second-person"))multiplePersons+="2";
-		if(desc.contains("third-person"))multiplePersons+="3";
+		if(desc.contains("first-person") || desc.contains("first person"))multiplePersons+="1";
+		if(desc.contains("second-person")|| desc.contains("second person"))multiplePersons+="2";
+		if(desc.contains("third-person") || desc.contains("third person"))multiplePersons+="3";
 		//one or more person? iterate over them
 		if(multiplePersons.length()>0){
 			for(char p:multiplePersons.toCharArray()){
