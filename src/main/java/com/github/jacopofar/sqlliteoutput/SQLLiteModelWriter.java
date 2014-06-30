@@ -17,10 +17,10 @@ public class SQLLiteModelWriter implements ModelWriter {
 
 	private Connection connection;
 
-	public SQLLiteModelWriter(String outputPath) throws ClassNotFoundException{
+	public SQLLiteModelWriter(String outputPath,String modelPart) throws ClassNotFoundException{
 		Class.forName("org.sqlite.JDBC");
 		try {
-			connection = DriverManager.getConnection("jdbc:sqlite:"+outputPath+"/it_model.db");
+			connection = DriverManager.getConnection("jdbc:sqlite:"+outputPath+"/it_"+modelPart+"_model.db");
 			Statement statement = connection.createStatement();
 			statement.executeUpdate("drop table if exists hyponyms");
 			statement.executeUpdate("drop table if exists verb_conjugations");

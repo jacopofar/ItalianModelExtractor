@@ -53,30 +53,37 @@ public class StartConversion {
 		k=VerbExtractor.extractItalianVerbForms(workdir+"verb_conjugations.txt", wiktionaryPath,"\t");
 		System.out.println("verb conjugations extracted, number of conjugations: "+k);
 
+		
 		System.out.println("reading the POS list to ignore IsA relationships between different parts of the speech...");
 		PoSTagChecker posChecker = PoSTagChecker.getInstance(workdir+"POS_list.txt", new String[]{"verb","noun","adjective","adverb"});
 		System.out.println("Extracting IsA relationships from wordnet using the POS data to filter them...");
 		k=ExtractIsARelationships.extractIsARelationShips(dict,posChecker,workdir+"hyponyms.tsv","\t");
 		System.out.println("Italian IsA relationships extracted, number of relationshisp found: "+k);
 		System.out.println("TSV files generated, creating the corresponding SQLLite database");
-		ModelWriter mw = null;
+		ModelWriter mwVerbs = null;
+		ModelWriter mwPOSs = null;
+		ModelWriter mwHyp = null;
+
 		try {
-			mw=new SQLLiteModelWriter(workdir);
+			mwVerbs=new SQLLiteModelWriter(workdir,"verb");
+			mwPOSs=new SQLLiteModelWriter(workdir,"POS");
+			mwHyp=new SQLLiteModelWriter(workdir,"hyp");
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 			System.err.println("Error while instantiating SQLLite database, check your classpath and Maven build");
 			System.exit(4);
 		}
 		System.out.println("exporting verb conjugations in a SQLLite DB...");
-		mw.importVerbConjugations(workdir+"verb_conjugations.txt","\t");
+		mwVerbs.importVerbConjugations(workdir+"verb_conjugations.txt","\t");
 		System.out.println("exporting PoS data in a SQLLite DB...");
-		mw.importPOSs(workdir+"POS_list.txt","\t");
+		mwPOSs.importPOSs(workdir+"POS_list.txt","\t");
 		System.out.println("exporting IsAs data in a SQLLite DB...");
-		mw.importIsAs(workdir+"hyponyms.tsv","\t");
-		mw.close();
+		mwHyp.importIsAs(workdir+"hyponyms.tsv","\t");
+		mwVerbs.close();
+		mwPOSs.close();
+		mwHyp.close();
 		long elapsed=System.currentTimeMillis()-startTime;
 		System.out.println("Finished, the execution took "+elapsed/(1000*60*60)+"h "+elapsed%(1000*60*60)/(1000*60)+"m "+elapsed%1000*60/(1000)+"s");
-
 	}
 
 }
