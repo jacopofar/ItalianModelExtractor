@@ -50,6 +50,9 @@ public class VerbExtractor {
 	private static int managePage(String content, String title) throws IOException {
 		if(title==null)
 			return 0;
+		//ignore the verbs ending with an ', it's a substitute for an accent
+		if(title.endsWith("'"))
+			return 0;
 		if(!content.contains("==Italian==")) return 0;
 		String verbIT=null;
 		try{

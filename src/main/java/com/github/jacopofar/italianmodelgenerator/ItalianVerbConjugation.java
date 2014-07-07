@@ -192,11 +192,12 @@ public class ItalianVerbConjugation {
 				if(desc.contains("plural"))ic.number='p';
 
 				if(desc.contains("indicative present"))ic.mode=Mode.INDICATIVE_PRESENT;
-				if(desc.contains("present tense"))ic.mode=Mode.INDICATIVE_PRESENT;
+				if(desc.contains("present tense") && !desc.contains("subjunctive"))ic.mode=Mode.INDICATIVE_PRESENT;
 				if(desc.contains("present participle"))ic.mode=Mode.PRESENT_PARTICIPLE;
 				if(desc.contains("imperfect tense"))ic.mode=Mode.INDICATIVE_IMPERFECT;
 				if(desc.contains("past participle"))ic.mode=Mode.PAST_PARTICIPLE;
 				if(desc.contains("present subjunctive"))ic.mode=Mode.SUBJUNCTIVE_PRESENT;
+				if(desc.contains("subjunctive present tense"))ic.mode=Mode.SUBJUNCTIVE_PRESENT;
 				if(desc.contains("future tense"))ic.mode=Mode.INDICATIVE_FUTURE;
 				if(desc.contains("imperfect subjunctive"))ic.mode=Mode.SUBJUNCTIVE_IMPERFECT;
 				if(desc.contains("conditional tense"))ic.mode=Mode.CONDITIONAL_PRESENT;
