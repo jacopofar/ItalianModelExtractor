@@ -1,5 +1,15 @@
-italian model generator
+Italian model generator
 =============================
+
+---
+**NOTE**
+
+This 8 years old project is **archived** because there are now better tools to do it. In particular, [Wiktextract](https://github.com/tatuylonen/wiktextract) provides an excellent source of verb conjugations, PoS tags and of course a dictionary.
+
+Regarding the pattern matching part, have a look at [SpaCy](https://spacy.io/), it is the way to go for NLP tasks in Python, and supports Italian.
+
+---
+
 
 This program uses various sources (WordNet, ConceptNet, and en.wiktionary) in order to generate different dataset regarding the Italian language, specifically:
 
